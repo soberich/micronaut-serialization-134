@@ -12,7 +12,8 @@ repositories {
 
 dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
-    annotationProcessor("io.micronaut.data:micronaut-data-processor:+")
+    // FIXME: Workaround applied
+    annotationProcessor("io.micronaut.data:micronaut-data-processor:3.3.0-M1")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
@@ -21,6 +22,11 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation("org.assertj:assertj-core")
     implementation("io.micronaut:micronaut-validation")
+
+    //Why this screws metadata?
+    compileOnly 'jakarta.persistence:jakarta.persistence-api:3.0.0'
+    implementation 'com.google.guava:guava:31.0.1-jre'
+
 }
 
 
@@ -37,7 +43,7 @@ micronaut {
     runtime("netty")
     testRuntime("junit5")
     processing {
-        incremental(true)
+        incremental(false)
         annotations("com.example.*")
     }
 }
